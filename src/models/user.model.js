@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -67,19 +70,19 @@ userSchema.methods.generateAccessToken = function(){
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn:ACCESS_TOKEN_EXPIRY
+            expiresIn:process.env.ACCESS_TOKEN_EXPIRY
         }
     );
 }
 
 userSchema.methods.generateRefreshToken = function(){
-    jwt.sign(
+    return jwt.sign(
         {
             _id:this._id
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn:REFRESH_TOKEN_EXPIRY
+            expiresIn:process.env.REFRESH_TOKEN_EXPIRY
         }
     );
 }
